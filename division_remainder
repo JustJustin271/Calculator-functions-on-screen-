@@ -1,12 +1,14 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 
+//Defines size of screen and library
 LiquidCrystal_I2C lcd(0x27, 16, 2); 
 
 const int countPin = 2;
 const int switchPin = 3;
 const int powerPin = 4;
 
+//Stores variables
 long count1 = 0;
 long count2 = 0;
 long quotient = 0;
@@ -16,6 +18,8 @@ bool state = 0;
 void setup() {
   lcd.init();
   lcd.noBacklight();
+  //Starts the Arduino
+
 
   pinMode(countPin, INPUT_PULLUP);
   pinMode(switchPin, INPUT_PULLUP);
@@ -23,7 +27,7 @@ void setup() {
 }
 
 void loop() {
-  if (digitalRead(powerPin) == LOW) {
+  if (digitalRead(powerPin) == LOW) { //If preseed, it will turn on/off
     state = !state;
     lcd.clear();
     
@@ -38,10 +42,13 @@ void loop() {
 
   if (state == true){
 
-    if (count2 != 0){
+    if (count2 != 0){ //If the not the illegal case, proceed
       quotient = count1 / count2;
     } 
-    
+
+    //Usual logic
+
+
     if(mode == 0){
       delay(50);
       lcd.setCursor(0,1);
@@ -72,19 +79,20 @@ void loop() {
 
       
     }
+//Logic for computation
     else if(mode == 2){
       lcd.setCursor(0,1);
       if (count2 == 0){
-        lcd.print("NaN D: No 0       ");
+        lcd.print("NaN :(             "); //Error message if you even think about dividing by 0
       } else{
         lcd.print("= ");
-        lcd.print(quotient);
-        lcd.print(" R: ");
-        lcd.print(count1 % count2);
-        lcd.print("              ");
+        lcd.print(quotient); //Arduino will round down as it is an int
+        lcd.print(" R: "); //Remainder
+        lcd.print(count1 % count2); //Uses modulo for remainder
+        lcd.print("              "); //S P A C E
       }
 
-      if(digitalRead(switchPin) == LOW){
+      if(digitalRead(switchPin) == LOW){ //Reset o' clock!
         count1 = 0;
         count2 = 0;
         mode = 0;
@@ -92,6 +100,9 @@ void loop() {
         delay(200);
       }
     }
+
+
+      //Display functions :)
 
       lcd.setCursor(0,0);
       lcd.print(count1);
