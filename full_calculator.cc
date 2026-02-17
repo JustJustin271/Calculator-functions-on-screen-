@@ -13,7 +13,6 @@ const int subPin = 11;
 const int multPin = 10;
 const int divPin = 9;
 
-
 //Defines variables
 long count1 = 0;
 long count2 = 0;
@@ -45,7 +44,8 @@ void loop() {
     
     if(state) { 
       lcd.init(); 
-      lcd.backlight(); } 
+      lcd.backlight(); 
+    } 
     else { 
       lcd.noBacklight(); 
     }
@@ -94,44 +94,41 @@ void loop() {
       
       if(digitalRead(countPin) == LOW){
         count1++; 
-        delay(150); //Delay to prevent Arduino from exploding ;)
+        delay(100); //Updated Delay
       }
       if(digitalRead(switchPin) == LOW){
         mode = 3; 
-        delay(301);
+        delay(100); //Updated Delay
       }
     }
-    
-    
     
     else if(mode == 3) {
         delay(100);
         lcd.setCursor(0,1);
         lcd.print("Choose function ");
-
+        
         //Function operations
-      
         if(digitalRead(addPin) == LOW) {
             function = 1;
-            delay(200);
+            delay(100); //Updated Delay
             mode = 1;
         }
         
         if(digitalRead(subPin) == LOW) {
             function = 2;
-            delay(200);
+            delay(100); //Updated Delay
             mode = 1;
         }
         
         if(digitalRead(multPin) == LOW) {
             function = 3;
-            delay(200);
+            delay(100); //Updated Delay
             mode = 1;
         }
         
         if(digitalRead(divPin) == LOW) {
             function = 4;
-            delay(200);
+            delay(100); //Updated Delay
             mode = 1;
         }
     }
@@ -143,15 +140,14 @@ void loop() {
       
       if(digitalRead(countPin) == LOW){
         count2++; 
-        delay(150);
+        delay(100); //Updated Delay
       }
       if(digitalRead(switchPin) == LOW){
         mode = 2; 
-        delay(301);
+        delay(100); //Updated Delay
       }
-
-      
     }
+
     //Displays the result of the function :D
     else if(mode == 2){
       lcd.setCursor(0,1);
@@ -176,18 +172,16 @@ void loop() {
       }
     }
 
-
     //Basics of the screen, constant update
-      lcd.setCursor(0,0);
-      lcd.print(count1);
-      lcd.print(functionName);
-      lcd.print(count2);
-      lcd.print("        ");
+    lcd.setCursor(0,0);
+    lcd.print(count1);
+    lcd.print(functionName);
+    lcd.print(count2);
+    lcd.print("        ");
 
-      delay(50);
-      
+    delay(50);
   }
 }
 
 //February 16th, 2026
-//This is the final 4 - function calculator based on the previous 4 functions :)
+//This is the final 4 - function calculator based on the previous 4 functions.
