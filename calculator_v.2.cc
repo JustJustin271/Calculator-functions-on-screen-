@@ -3,14 +3,12 @@
 
 LiquidCrystal_I2C lcd(0x27, 16, 2); 
 
-
-
+//Pins
 const int countPin1 = 5;
 const int countPin10 = 4;
 const int countPin100 = 3;
 
 const int switchPin = 2;
-
 
 
 const int clearPin = 6;
@@ -54,6 +52,7 @@ void setup() {
 
 void loop() {
 
+//Power button falling edge
 int powerState = digitalRead(powerPin);
 
   if (powerState == LOW && lastPowerState == HIGH) {
@@ -69,8 +68,12 @@ int powerState = digitalRead(powerPin);
     }
     delay(100);
   }
-
   lastPowerState = powerState;
+
+
+
+  //In charge of the operation and what to do
+  //Math portion of the calculator
 
   if (state == true){
       delay(100);
@@ -107,10 +110,13 @@ int powerState = digitalRead(powerPin);
               answer = 0;
           }
       }
+
+
+    //Lets the user input the first number
     
     if(mode == 0){
       lcd.setCursor(0,1);
-      lcd.print("Set Number 1    ");
+      lcd.print(F("Set Number 1    "));
       
       if(digitalRead(countPin1) == LOW){
         count1++; 
@@ -133,13 +139,15 @@ int powerState = digitalRead(powerPin);
         delay(100);
       }
     }
-    
-    
-    
+
+
+
+    //Lets the user pick the operation to perform
+        
     else if(mode == 3) {
         delay(100);
         lcd.setCursor(0,1);
-        lcd.print("Choose function ");
+        lcd.print(F("Choose function ") );
         
         if(digitalRead(addPin) == LOW) {
             function = 1;
@@ -165,11 +173,12 @@ int powerState = digitalRead(powerPin);
             mode = 1;
         }
     }
+
+    //Lets the user input the 2nd number
     
     else if(mode == 1){
-      delay(100);
       lcd.setCursor(0,1);
-      lcd.print("Set Number 2    ");
+      lcd.print(F("Set Number 2    "));
       
       if(digitalRead(countPin1) == LOW){
         count2++; 
@@ -192,22 +201,27 @@ int powerState = digitalRead(powerPin);
         delay(100);
       }
 
-      
+
+
+    //Displaying Result
+    
     }
     else if(mode == 2){
       lcd.setCursor(0,1);
       if ((function == 4)&&(count2 == 0)){
-        lcd.print("NaN D:           ");
+        lcd.print(F("NaN D:           "));
       } else{
         lcd.print("= ");
-        if(answer == (int)answer){
+        if(answer == (long)answer){
           lcd.print((long)answer);
         } else {
           lcd.print(answer, 4);
         }
-        lcd.print("                ");
+        lcd.print(F("                "));
         delay(200);
       }
+
+    //Resets variables to 0 and default
 
       if(digitalRead(clearPin) == LOW){
         count1 = 0;
@@ -220,13 +234,20 @@ int powerState = digitalRead(powerPin);
       }
     }
 
+  //Constant and will ALWAYS be done
+
       lcd.setCursor(0,0);
       lcd.print(count1);
       lcd.print(functionName);
       lcd.print(count2);
-      lcd.print("          ");
+      lcd.print(F("          "));
 
       delay(50);
       
   }
 }
+
+//February 17th, 2026
+//This is an updated calculator and changed how decimal points work
+//Falling edge added to power button
+//Easier number entering with +10Pin and +100Pin
